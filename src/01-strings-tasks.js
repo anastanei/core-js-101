@@ -307,8 +307,7 @@ function getCardId(value) {
   const suits = ['♣', '♦', '♥', '♠'];
   const rank = value.slice(0, -1);
   const suit = value[value.length - 1];
-  const id = parseInt(`${suits.indexOf(suit)}${ranks.indexOf(rank)}`, 10);
-  return id;
+  return suits.indexOf(suit) * 13 + ranks.indexOf(rank);
 }
 
 module.exports = {
