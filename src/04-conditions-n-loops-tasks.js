@@ -317,10 +317,29 @@ function getDigitalRoot(num) {
  *   '{)' = false
  *   '{[(<{[]}>)]}' = true
  */
-function isBracketsBalanced(/* str */) {
-  throw new Error('Not implemented');
-}
+function isBracketsBalanced(str) {
+  const stack = [];
+  const brackets = {
+    '[': ']',
+    '(': ')',
+    '{': '}',
+    '<': '>',
+  };
 
+  const isValide = str.split('').every((char) => {
+    if (brackets[char]) {
+      stack.push(char);
+    } else if (Object.values(brackets).includes(char)) {
+      const openBracket = stack.pop();
+      if (brackets[openBracket] !== char) {
+        return false;
+      }
+    }
+    return true;
+  });
+
+  return isValide && stack.length === 0;
+}
 /**
  * Returns the string with n-ary (binary, ternary, etc, where n <= 10)
  * representation of specified number.
@@ -341,8 +360,14 @@ function isBracketsBalanced(/* str */) {
  *    365, 4  => '11231'
  *    365, 10 => '365'
  */
-function toNaryString(/* num, n */) {
-  throw new Error('Not implemented');
+function toNaryString(num, n) {
+  let rem = num;
+  const res = [];
+  while (rem > 0) {
+    res.push(rem % n);
+    rem = Math.floor(rem / n);
+  }
+  return res.reverse().join('');
 }
 
 /**
@@ -357,8 +382,19 @@ function toNaryString(/* num, n */) {
  *   ['/web/assets/style.css', '/.bin/mocha',  '/read.me'] => '/'
  *   ['/web/favicon.ico', '/web-scripts/dump', '/verbalizer/logs'] => '/'
  */
-function getCommonDirectoryPath(/* pathes */) {
-  throw new Error('Not implemented');
+function getCommonDirectoryPath(pathes) {
+  const splittedPath = pathes.map((path) => path.split('/'));
+  const first = splittedPath[0];
+  const commonPath = [];
+  for (let i = 0; i < first.length; i += 1) {
+    const dir = first[i];
+    if (splittedPath.every((path) => path[i] === dir)) {
+      commonPath.push(dir);
+    } else {
+      break;
+    }
+  }
+  return commonPath.length > 0 ? `${commonPath.join('/')}/` : '';
 }
 
 /**
