@@ -415,8 +415,14 @@ function getCommonDirectoryPath(pathes) {
  *                         [ 6 ]]
  *
  */
-function getMatrixProduct(/* m1, m2 */) {
-  throw new Error('Not implemented');
+function getMatrixProduct(m1, m2) {
+  const trM2 = m2[0].map((_, colIndex) => m2.map((row) => row[colIndex]));
+
+  const getRowProduct = (row, col) => row.reduce((acc, item, index) => acc + item * col[index], 0);
+
+  const calculateProduct = (row) => trM2.map((col) => getRowProduct(row, col));
+
+  return m1.map(calculateProduct);
 }
 
 /**
@@ -449,8 +455,21 @@ function getMatrixProduct(/* m1, m2 */) {
  *    [    ,   ,    ]]
  *
  */
-function evaluateTicTacToePosition(/* position */) {
-  throw new Error('Not implemented');
+function evaluateTicTacToePosition(position) {
+  const arr = [
+    [position[0][0], position[0][1], position[0][2]],
+    [position[1][0], position[1][1], position[1][2]],
+    [position[2][0], position[2][1], position[2][2]],
+    [position[0][0], position[1][0], position[2][0]],
+    [position[0][1], position[1][1], position[2][1]],
+    [position[0][2], position[1][2], position[2][2]],
+    [position[0][0], position[1][1], position[2][2]],
+    [position[0][2], position[1][1], position[2][0]],
+  ];
+
+  const goalRow = arr.find((row) => row[0] && row[0] === row[1] && row[1] === row[2]);
+
+  return goalRow ? goalRow[0] : undefined;
 }
 
 module.exports = {
