@@ -119,8 +119,12 @@ function isTriangle(a, b, c) {
  *   { top:20, left:20, width: 20, height: 20 }    =>  false
  *
  */
-function doRectanglesOverlap(/* rect1, rect2 */) {
-  throw new Error('Not implemented');
+function doRectanglesOverlap(rect1, rect2) {
+  const isNotTopper = rect2.top + rect2.height > rect1.top;
+  const isNotBottomer = rect1.top + rect1.height > rect2.top;
+  const isNotLefter = rect2.left + rect2.width > rect1.left;
+  const isNotRighter = rect1.left + rect1.width > rect2.left;
+  return isNotTopper && isNotBottomer && isNotLefter && isNotRighter;
 }
 
 /**
@@ -199,8 +203,12 @@ function findFirstSingleChar(str) {
  *   5, 3, true, true   => '[3, 5]'
  *
  */
-function getIntervalString(/* a, b, isStartIncluded, isEndIncluded */) {
-  throw new Error('Not implemented');
+function getIntervalString(a, b, isStartIncluded, isEndIncluded) {
+  const startBrace = isStartIncluded ? '[' : '(';
+  const endBrace = isEndIncluded ? ']' : ')';
+  const x = a < b ? a : b;
+  const y = a > b ? a : b;
+  return `${startBrace}${x}, ${y}${endBrace}`;
 }
 
 /**
@@ -255,8 +263,19 @@ function reverseInteger(num) {
  *   5436468789016589 => false
  *   4916123456789012 => false
  */
-function isCreditCardNumber(/* ccn */) {
-  throw new Error('Not implemented');
+function isCreditCardNumber(ccn) {
+  const arr = ccn.toString().split('').reverse();
+  const res = arr.reduce((acc, item, index) => {
+    let num = parseInt(item, 10);
+    if (index % 2 === 1) {
+      num *= 2;
+      if (num > 9) {
+        num -= 9;
+      }
+    }
+    return acc + num;
+  }, 0);
+  return res % 10 === 0;
 }
 
 /**
@@ -273,8 +292,8 @@ function isCreditCardNumber(/* ccn */) {
  *   10000 ( 1+0+0+0+0 = 1 ) => 1
  *   165536 (1+6+5+5+3+6 = 26,  2+6 = 8) => 8
  */
-function getDigitalRoot(/* num */) {
-  throw new Error('Not implemented');
+function getDigitalRoot(num) {
+  return num % 9;
 }
 
 /**
